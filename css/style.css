@@ -258,6 +258,43 @@ body {
     font-size: 50px;
 }
 
+.cat-image, .hero-cat-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.hero-cat-image {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    border: 2px solid #d4af37;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.cert-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 5px;
+    border: 2px solid #d4af37;
+    margin: 15px 0 10px 0;
+}
+
+.cert-caption {
+    text-align: center;
+    font-size: 14px;
+    color: #d4af37;
+    font-weight: bold;
+    margin: 0;
+}
+
+.certification-image {
+    text-align: center;
+    margin-top: 15px;
+}
+
 .cat-info, .kitten-info {
     padding: 20px;
 }
