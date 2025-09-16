@@ -658,6 +658,63 @@ body {
     }
 }
 
+/* Social media styles */
+.social-media {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid #444;
+}
+
+.social-media h3 {
+    color: #e8e8e8;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #3a3a3a;
+    border-radius: 8px;
+    color: #cccccc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid #555;
+}
+
+.social-link:hover {
+    background: #d4af37;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Instagram specific color */
+.social-link[aria-label="Instagram"]:hover {
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+}
+
+/* Facebook specific color */
+.social-link[aria-label="Facebook"]:hover {
+    background: #1877f2;
+}
+
 /* Utility classes */
 .text-center {
     text-align: center;
