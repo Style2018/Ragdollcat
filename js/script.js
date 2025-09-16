@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Contact form handling (if present)
     initContactForm();
     
+    // Initialize lightbox functionality
+    initLightbox();
+    
     console.log('布偶貓網站已載入完成');
 });
 
@@ -374,6 +377,373 @@ function showLoadingIndicator() {
             }
         }, 500);
     });
+}
+
+// Lightbox functionality
+function initLightbox() {
+    // Create lightbox modal if it doesn't exist
+    if (!document.getElementById('lightboxModal')) {
+        createLightboxModal();
+    }
+    
+    // Initialize single image lightbox
+    initSingleImageLightbox();
+    
+    // Initialize gallery lightbox
+    initGalleryLightbox();
+}
+
+function createLightboxModal() {
+    const modal = document.createElement('div');
+    modal.id = 'lightboxModal';
+    modal.className = 'lightbox-modal';
+    modal.innerHTML = `
+        <div class="lightbox-content">
+            <span class="lightbox-close">&times;</span>
+            <button class="lightbox-nav prev" onclick="changeImage(-1)">&#10094;</button>
+            <button class="lightbox-nav next" onclick="changeImage(1)">&#10095;</button>
+            <img class="lightbox-image" id="lightboxImage" src="" alt="">
+            <div class="lightbox-counter" id="lightboxCounter" style="display: none;"></div>
+            <div class="lightbox-info" id="lightboxInfo" style="display: none;">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Close modal events
+    const closeBtn = modal.querySelector('.lightbox-close');
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeLightbox();
+        }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (modal.classList.contains('show')) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowLeft') {
+                changeImage(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeImage(1);
+            }
+        }
+    });
+    
+    // Touch/swipe navigation
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50;
+    
+    modal.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    modal.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        if (!modal.classList.contains('show')) return;
+        
+        const swipeDistance = touchEndX - touchStartX;
+        
+        if (Math.abs(swipeDistance) > minSwipeDistance) {
+            if (swipeDistance > 0) {
+                // Swipe right - go to previous image
+                changeImage(-1);
+            } else {
+                // Swipe left - go to next image  
+                changeImage(1);
+            }
+        }
+    }
+}
+
+let currentImageIndex = 0;
+let currentGallery = [];
+
+function initSingleImageLightbox() {
+    // Add click handlers to single images (not in galleries)
+    const singleImages = document.querySelectorAll('.cert-image, .hero-cat-image-large, .photo-placeholder');
+    
+    singleImages.forEach(function(img) {
+        // Skip if it's part of a gallery
+        if (!img.closest('.cat-card') && !img.closest('.kitten-card') && !img.closest('.gallery-item')) {
+            img.classList.add('clickable-image');
+            img.addEventListener('click', function() {
+                openSingleImage(this);
+            });
+        }
+    });
+}
+
+function initGalleryLightbox() {
+    // Handle cat/kitten galleries
+    const catCards = document.querySelectorAll('.cat-card, .kitten-card');
+    catCards.forEach(function(card) {
+        const img = card.querySelector('img, .cat-image-placeholder, .kitten-image-placeholder');
+        if (img) {
+            img.classList.add('gallery-image');
+            img.addEventListener('click', function() {
+                openCatGallery(card);
+            });
+        }
+    });
+    
+    // Handle photo gallery items
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(function(item, index) {
+        const placeholder = item.querySelector('.photo-placeholder');
+        if (placeholder) {
+            placeholder.classList.add('gallery-image');
+            placeholder.addEventListener('click', function() {
+                openPhotoGallery(index);
+            });
+        }
+    });
+}
+
+function openSingleImage(imgElement) {
+    const modal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const counter = document.getElementById('lightboxCounter');
+    const info = document.getElementById('lightboxInfo');
+    const prevBtn = modal.querySelector('.lightbox-nav.prev');
+    const nextBtn = modal.querySelector('.lightbox-nav.next');
+    
+    // Hide navigation and counter for single images
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    counter.style.display = 'none';
+    info.style.display = 'none';
+    
+    // Set image source
+    if (imgElement.tagName === 'IMG') {
+        lightboxImg.src = imgElement.src;
+        lightboxImg.alt = imgElement.alt;
+    } else {
+        // For placeholders, show a message
+        lightboxImg.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%23f0ebe5"/><text x="200" y="150" text-anchor="middle" fill="%23666" font-family="Arial" font-size="20">圖片即將上傳</text></svg>';
+    }
+    
+    modal.classList.add('show');
+}
+
+function openCatGallery(cardElement) {
+    const modal = document.getElementById('lightboxModal');
+    const catName = cardElement.querySelector('h3').textContent;
+    const catImg = cardElement.querySelector('img');
+    
+    // Create gallery array (in real implementation, you'd have multiple images per cat)
+    currentGallery = [];
+    
+    if (catImg) {
+        currentGallery.push({
+            src: catImg.src,
+            alt: catImg.alt,
+            title: '',
+            description: '',
+            thumb: catImg.src
+        });
+        
+        // Add sample additional images (placeholder)
+        currentGallery.push({
+            src: catImg.src,
+            alt: catName + ' - 生活照',
+            title: '',
+            description: '',
+            thumb: catImg.src
+        });
+        
+        currentGallery.push({
+            src: catImg.src,
+            alt: catName + ' - 寫真照',
+            title: '',
+            description: '',
+            thumb: catImg.src
+        });
+    }
+    
+    currentImageIndex = 0;
+    showCatGalleryImage();
+    modal.classList.add('show');
+}
+
+function openPhotoGallery(startIndex) {
+    const modal = document.getElementById('lightboxModal');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    currentGallery = [];
+    galleryItems.forEach(function(item) {
+        const title = item.querySelector('h3').textContent;
+        const description = item.querySelector('p').textContent;
+        
+        currentGallery.push({
+            src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="600" height="400" fill="%23f0ebe5"/><text x="300" y="200" text-anchor="middle" fill="%23666" font-family="Arial" font-size="24">' + title + '</text></svg>',
+            alt: title,
+            title: title,
+            description: description
+        });
+    });
+    
+    currentImageIndex = startIndex;
+    showGalleryImage();
+    modal.classList.add('show');
+}
+
+function showGalleryImage() {
+    const lightboxImg = document.getElementById('lightboxImage');
+    const counter = document.getElementById('lightboxCounter');
+    const info = document.getElementById('lightboxInfo');
+    const title = document.getElementById('lightboxTitle');
+    const description = document.getElementById('lightboxDescription');
+    const prevBtn = document.querySelector('.lightbox-nav.prev');
+    const nextBtn = document.querySelector('.lightbox-nav.next');
+    
+    if (currentGallery.length === 0) return;
+    
+    const currentImage = currentGallery[currentImageIndex];
+    
+    // Show image
+    lightboxImg.src = currentImage.src;
+    lightboxImg.alt = currentImage.alt;
+    
+    // Show/update counter
+    if (currentGallery.length > 1) {
+        counter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+        counter.style.display = 'block';
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+        
+        // Update navigation buttons
+        prevBtn.disabled = currentImageIndex === 0;
+        nextBtn.disabled = currentImageIndex === currentGallery.length - 1;
+    } else {
+        counter.style.display = 'none';
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }
+    
+    // Show info
+    if (currentImage.title || currentImage.description) {
+        title.textContent = currentImage.title || '';
+        description.textContent = currentImage.description || '';
+        info.style.display = 'block';
+    } else {
+        info.style.display = 'none';
+    }
+}
+
+function showCatGalleryImage() {
+    const lightboxImg = document.getElementById('lightboxImage');
+    const counter = document.getElementById('lightboxCounter');
+    const info = document.getElementById('lightboxInfo');
+    const prevBtn = document.querySelector('.lightbox-nav.prev');
+    const nextBtn = document.querySelector('.lightbox-nav.next');
+    
+    if (currentGallery.length === 0) return;
+    
+    const currentImage = currentGallery[currentImageIndex];
+    
+    // Show image
+    lightboxImg.src = currentImage.src;
+    lightboxImg.alt = currentImage.alt;
+    
+    // Hide info for cat galleries
+    info.style.display = 'none';
+    
+    // Show/update counter
+    if (currentGallery.length > 1) {
+        counter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+        counter.style.display = 'block';
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+        
+        // Update navigation buttons
+        prevBtn.disabled = currentImageIndex === 0;
+        nextBtn.disabled = currentImageIndex === currentGallery.length - 1;
+    } else {
+        counter.style.display = 'none';
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }
+    
+    // Hide thumbnails for cats
+    hideThumbnails();
+}
+
+function changeImage(direction) {
+    if (currentGallery.length === 0) return;
+    
+    currentImageIndex += direction;
+    
+    if (currentImageIndex < 0) {
+        currentImageIndex = 0;
+    } else if (currentImageIndex >= currentGallery.length) {
+        currentImageIndex = currentGallery.length - 1;
+    }
+    
+    // Check if this is a cat gallery or regular gallery
+    const isCatGallery = currentGallery[0] && currentGallery[0].thumb !== undefined;
+    
+    if (isCatGallery) {
+        showCatGalleryImage();
+    } else {
+        showGalleryImage();
+    }
+}
+
+function showThumbnails() {
+    let thumbnailsContainer = document.getElementById('lightboxThumbnails');
+    
+    if (!thumbnailsContainer) {
+        thumbnailsContainer = document.createElement('div');
+        thumbnailsContainer.id = 'lightboxThumbnails';
+        thumbnailsContainer.className = 'lightbox-thumbnails';
+        document.querySelector('.lightbox-content').appendChild(thumbnailsContainer);
+    }
+    
+    thumbnailsContainer.innerHTML = '';
+    
+    currentGallery.forEach(function(image, index) {
+        const thumb = document.createElement('img');
+        thumb.src = image.thumb;
+        thumb.className = 'lightbox-thumb';
+        if (index === currentImageIndex) {
+            thumb.classList.add('active');
+        }
+        
+        thumb.addEventListener('click', function() {
+            currentImageIndex = index;
+            showCatGalleryImage();
+        });
+        
+        thumbnailsContainer.appendChild(thumb);
+    });
+    
+    thumbnailsContainer.style.display = 'flex';
+}
+
+function hideThumbnails() {
+    const thumbnailsContainer = document.getElementById('lightboxThumbnails');
+    if (thumbnailsContainer) {
+        thumbnailsContainer.style.display = 'none';
+    }
+}
+
+function closeLightbox() {
+    const modal = document.getElementById('lightboxModal');
+    modal.classList.remove('show');
+    hideThumbnails();
+    currentGallery = [];
+    currentImageIndex = 0;
 }
 
 // Initialize all functionality when DOM is ready
