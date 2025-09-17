@@ -9,7 +9,7 @@ body {
     font-family: 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #faf8f5;
+    background: linear-gradient(135deg, #faf8f5 0%, #f6f2f7 100%);
 }
 
 /* Container layout */
@@ -21,25 +21,25 @@ body {
 /* Sidebar navigation */
 .sidebar {
     width: 250px;
-    background: linear-gradient(180deg, #2c2c2c 0%, #1a1a1a 100%);
-    color: #ffffff;
+    background: linear-gradient(180deg, #ffffff 0%, #e9e1ef 100%);
+    color: #c4a593;
     padding: 0;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 15px rgba(0,0,0,0.1);
 }
 
 .nav-header {
     padding: 20px;
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #444;
+    background-color: #e9e1ef;
+    border-bottom: 1px solid #d4c8e0;
 }
 
 .nav-header h2 {
     font-size: 18px;
     font-weight: 500;
-    color: #e8e8e8;
+    color: #b5967f;
     text-align: center;
 }
 
@@ -54,7 +54,7 @@ body {
 
 .nav-menu a {
     display: block;
-    color: #cccccc;
+    color: #a88771;
     text-decoration: none;
     padding: 15px 20px;
     font-size: 14px;
@@ -63,15 +63,15 @@ body {
 }
 
 .nav-menu a:hover {
-    background-color: #3a3a3a;
-    color: #ffffff;
-    border-left-color: #d4af37;
+    background-color: #f4ede5;
+    color: #8b7355;
+    border-left-color: #e8b4a0;
 }
 
 .nav-menu a.active {
-    background-color: #4a4a4a;
-    color: #ffffff;
-    border-left-color: #d4af37;
+    background-color: #f0e8df;
+    color: #8b7355;
+    border-left-color: #e8b4a0;
     font-weight: 500;
 }
 
@@ -80,26 +80,26 @@ body {
     flex: 1;
     margin-left: 250px;
     padding: 0;
-    background-color: #faf8f5;
+    background: linear-gradient(135deg, #faf8f5 0%, #f5f0f8 100%);
 }
 
 /* Page header */
 .page-header {
-    background: linear-gradient(135deg, #f5f1eb 0%, #ebe6e0 100%);
+    background: #e9e1ef;
     padding: 40px;
-    border-bottom: 1px solid #e0ddd7;
+    border-bottom: 1px solid #ffffff;
 }
 
 .page-header h1 {
     font-size: 28px;
-    color: #5a5a5a;
-    font-weight: 300;
+    color: #b5967f;
+    font-weight: 700;
     text-align: center;
 }
 
 /* Hero section */
 .hero-section {
-    background: linear-gradient(135deg, #f8f5f1 0%, #f2ede7 100%);
+    background: linear-gradient(135deg, #f8f5f1 0%, #f2ede7 50%, #f0e8f3 100%);
     padding: 60px 40px;
     text-align: center;
 }
@@ -148,6 +148,10 @@ body {
 /* Content sections */
 .content-section {
     padding: 40px;
+    background: linear-gradient(135deg, #ffffff 0%, #faf8fc 100%);
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 2px 10px rgba(233, 225, 239, 0.2);
 }
 
 .content-section h2 {
@@ -439,15 +443,15 @@ body {
 
 /* FAQ section */
 .faq-item {
-    background: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #faf8fc 100%);
     margin-bottom: 15px;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(233, 225, 239, 0.08);
     overflow: hidden;
 }
 
 .faq-question {
-    background: #f8f5f1;
+    background: linear-gradient(135deg, #f8f5f1 0%, #f3f0f5 100%);
     padding: 20px;
     cursor: pointer;
     border-left: 4px solid #d4af37;
@@ -549,10 +553,10 @@ body {
 
 /* Contact info */
 .contact-info, .contact-section {
-    background: #f8f5f1;
+    background: linear-gradient(135deg, #f8f5f1 0%, #f3f0f5 100%);
     padding: 25px;
     border-radius: 10px;
-    border: 1px solid #e8e3dd;
+    border: 1px solid #e9e1ef;
     text-align: center;
     margin-top: 30px;
 }
@@ -667,11 +671,11 @@ body {
 .social-media {
     margin-top: 30px;
     padding: 20px;
-    border-top: 1px solid #444;
+    border-top: 1px solid #d4c8e0;
 }
 
 .social-media h3 {
-    color: #e8e8e8;
+    color: #b5967f;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 15px;
@@ -690,19 +694,19 @@ body {
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: #3a3a3a;
+    background: #f4ede5;
     border-radius: 8px;
-    color: #cccccc;
+    color: #a88771;
     text-decoration: none;
     transition: all 0.3s ease;
-    border: 1px solid #555;
+    border: 1px solid #e8ddd7;
 }
 
 .social-link:hover {
-    background: #d4af37;
+    background: #e8b4a0;
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 8px rgba(232, 180, 160, 0.3);
 }
 
 .social-icon {
@@ -744,23 +748,23 @@ body {
 }
 
 .gallery-item {
-    background: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #faf8fc 100%);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border: 1px solid #e8e3dd;
+    box-shadow: 0 4px 15px rgba(233, 225, 239, 0.12);
+    border: 1px solid #e9e1ef;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .gallery-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 8px 25px rgba(233, 225, 239, 0.3);
 }
 
 .photo-placeholder {
     width: 100%;
     height: 200px;
-    background: linear-gradient(135deg, #f0ebe5 0%, #e5ddd7 100%);
+    background: linear-gradient(135deg, #f0ebe5 0%, #e5ddd7 50%, #ebe1ef 100%);
     display: flex;
     align-items: center;
     justify-content: center;
