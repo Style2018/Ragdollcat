@@ -14,7 +14,7 @@ F:\Project\Ragdollcat\
 │   ├── breeding-cats.html     # 種公/種母
 │   ├── adoption-process.html  # 選貓流程＆預約注意事項
 │   ├── pricing.html          # 讓渡價格區分
-│   ├── find-kitten.html      # 找小貓
+│   ├── find-kitten.html      # 貓寶貝找家中
 │   ├── faq.html              # 問與答 Q&A
 │   └── competition.html      # 參賽
 └── README.txt                # 本說明文件
