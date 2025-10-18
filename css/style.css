@@ -1253,3 +1253,109 @@ body {
     margin-bottom: 12px;
     padding-left: 5px;
 }
+
+/* Marquee styles */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f5f1 0%, #f3f0f5 100%);
+    padding: 25px 0;
+    border-radius: 12px;
+    border: 1px solid #e9e1ef;
+    margin-top: 20px;
+    position: relative;
+}
+
+.marquee-container::before,
+.marquee-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(248, 245, 241, 0.95) 0%, transparent 100%);
+}
+
+.marquee-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(248, 245, 241, 0.95) 0%, transparent 100%);
+}
+
+.marquee-content {
+    display: flex;
+    animation: marquee 40s linear infinite;
+    width: fit-content;
+}
+
+.marquee-content:hover {
+    animation-play-state: paused;
+}
+
+.marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 30px;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    margin: 0 15px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+}
+
+.marquee-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+}
+
+.marquee-icon {
+    width: 24px;
+    height: 24px;
+    color: #d4af37;
+    flex-shrink: 0;
+}
+
+.marquee-item span {
+    font-size: 15px;
+    color: #5a5a5a;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive marquee */
+@media (max-width: 768px) {
+    .marquee-item {
+        padding: 10px 20px;
+        margin: 0 10px;
+    }
+
+    .marquee-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .marquee-item span {
+        font-size: 13px;
+    }
+
+    .marquee-content {
+        animation: marquee 30s linear infinite;
+    }
+}
